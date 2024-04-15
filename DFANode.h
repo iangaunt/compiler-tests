@@ -5,11 +5,11 @@
 
 class DFANode {
     public: 
-        bool endpoint;
         char c;
         std::vector<DFANode>* children;
+        bool endpoint;
 
-        DFANode(char ch, bool end);
+        DFANode(char ch);
 };
 
 #endif 

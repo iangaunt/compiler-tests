@@ -13,7 +13,7 @@ DFANode* constructDFA(std::map<char, std::string>& graph, char h) {
         DFANode* curr;
 
         bool found = storage.find(i -> first) != storage.end();
-        curr = found ? storage.at(i -> first) : new DFANode(i -> first, false);
+        curr = found ? storage.at(i -> first) : new DFANode(i -> first);
         
         if (i -> first == h) head = curr;
 
@@ -22,7 +22,7 @@ DFANode* constructDFA(std::map<char, std::string>& graph, char h) {
             DFANode* n;
 
             bool childFound = storage.find(i -> second[k]) != storage.end();
-            n = childFound ? storage.at(i -> second[k]) : new DFANode(i -> second[k], false);
+            n = childFound ? storage.at(i -> second[k]) : new DFANode(i -> second[k]);
             curr -> children -> push_back(*n);
         }
     }
@@ -32,7 +32,7 @@ DFANode* constructDFA(std::map<char, std::string>& graph, char h) {
         if (val -> children -> empty()) val -> endpoint = true;
     }
 
-    DFANode* dfa = new DFANode(' ', false);
+    DFANode* dfa = new DFANode(' ');
     dfa -> children -> push_back(*head);
 
     return dfa;
@@ -40,16 +40,24 @@ DFANode* constructDFA(std::map<char, std::string>& graph, char h) {
 
 bool acceptDFAInput(DFANode* tree, std::string input) {
     if (input.length() == 0) return true;
-    DFANode* p = tree;
+    DFANode* head = tree;
 
-    std::vector<DFANode>* children = p -> children;
-    for (int i = 0; i < children -> size(); i++) {
-        if (children -> at(i).c == input.at(0)) {
-            input = input.substr(1, input.length() - 1);
-            p = &children -> at(i);
+    while (input.length() > 0) {
+        std::vector<DFANode>* children = head -> children;
+        bool found = false;
 
-            return acceptDFAInput(p, input.substr(1, input.length() - 1));
+        for (int i = 0; i < children -> size(); i++) {
+            std::cout << children -> at(i).c << std::endl;
+            if (children -> at(i).c == input[0]) {
+                input = input.substr(1, input.length() - 1);
+                head = &children -> at(i);
+
+                found = true;
+                break;
+            }
         }
+
+        if (!found) return false;
     }
 
     return false;
