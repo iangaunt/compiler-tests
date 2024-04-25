@@ -40,6 +40,11 @@
         "cctype": "cpp",
         "map": "cpp",
         "string": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "atomic": "cpp",
+        "bit": "cpp",
+        "clocale": "cpp",
+        "compare": "cpp",
+        "ctime": "cpp"
     }
 }
